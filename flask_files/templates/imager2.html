@@ -1,0 +1,96 @@
+<html>
+<script src="https://d3js.org/d3.v5.min.js"></script>
+<body>
+<script>
+    var height = 800
+    var width = 1450
+    var svg = d3.select('body').append('svg').attr('height', height).attr('width', width)
+    var back = svg.append('rect').attr('x',0).attr('y',0).attr('width','100%').attr('height','100%')
+                .attr('id', 'back').attr('fill', '#99CCFF')
+
+
+    works = ['Umberto-Boccioni_States-of-Mind-II:-Those-Who-Go_1911.jpeg',
+                 'Georges-Rouault_Clown_1912.jpeg',
+                'Robert-Moskowitz_Eddystone_1979.jpeg', 'David-Alfaro-Siqueiros_Ethnography_1939.jpeg',
+                'Meret-Oppenheim_Red-Head,-Blue-Body_1936.jpeg']
+
+    svg.selectAll('image').data(works).enter().append('image').attr('y', function(d,i){if (i<3){
+                                                                                           return 50
+                                                                                       } else {
+                                                                                            return 400}})
+    .attr('x', function(d,i){if (i<3){return i*450+100
+                             } else {return i%3*450+300}
+                             })
+        .attr('height', 300).attr('width', 300)
+        .attr('xlink:href', function(d){return `/static/moma/${d}`})
+        .style('filter', 'url(#motionFilter)')
+
+    var defs = svg.append('defs');
+        defs.append('filter').attr('id', 'motionFilter')
+                            .attr('width', '400%')
+                            .attr('x', '-200%')
+                            .append('feGaussianBlur')
+                            .attr('class', 'blurValues')
+                            .attr('in', 'SourceGraphic')
+                            .attr('stdDeviation', '0.1 0.1');
+    function blur(){
+        d3.select('#motionFilter .blurValues')
+            .transition().duration(2000)
+            .attrTween('stdDeviation', function(d, i) {
+                    return d3.interpolateString('0.1 0.1', `4 4`);
+                    })
+        document.body.removeEventListener('mouseup', blur)
+        document.body.addEventListener('mouseup', center)
+    }
+
+    function center(){
+        d3.selectAll('image').transition().delay(function(d,i){return i%2*300+i*100}).duration(1000).attr('x', 550).attr('y', 200)
+        document.body.addEventListener('mouseup', replace)
+    }
+
+    function replace(){
+        svg.append('image').attr('x', 550).attr('y', 200).attr('width', 300).attr('height', 300)
+            .attr('xlink:href', '/static/for_use/necklace.jpeg').style('filter', 'url(#motionFilter)')
+        d3.select('#motionFilter .blurValues')
+            .transition().duration(3000)
+            .attrTween('stdDeviation', function(d, i) {
+                    return d3.interpolateString('4 4', `0.1 0.1`);
+                    })
+
+        document.body.removeEventListener('mouseup', replace)
+        document.body.addEventListener('mouseup', function(){d3.selectAll('image').transition().duration(1000).attr('x', 300);
+            setTimeout(function(){svg.append('image')
+            .attr('x', 750).attr('y', 200).attr('width', 300).attr('height', 300)
+            .attr('xlink:href', '/static/for_use/bad2.jpeg')}, 1200)})
+
+    }
+
+    document.body.addEventListener('mouseup', blur)
+
+
+</script>
+</body>
+<form action="/gallery">
+            <input type="submit" value=" " method="get" style="width:0%;border:0px;color:transparent" id="next_page">
+            <script>
+                var forward = document.body;
+                forward.addEventListener('keyup', function(event){
+                            if (event.keyCode==190) {
+                                event.preventDefault();
+                                document.getElementById('next_page').click();
+                            }
+                      });
+            </script>
+        </form>
+<form action="/image">
+            <input type="submit" value=" " method="get" style="width:0%;border:0px;color:transparent" id="back_page">
+            <script>
+                forward.addEventListener('keyup', function(event){
+                            if (event.keyCode==188) {
+                                event.preventDefault();
+                                document.getElementById('back_page').click();
+                            }
+                      });
+            </script>
+        </form>
+</html>

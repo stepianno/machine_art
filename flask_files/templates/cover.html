@@ -1,0 +1,85 @@
+<html>
+<script src="https://d3js.org/d3.v5.min.js"></script>
+<body>
+<script>
+    var height = 800
+    var width = 1450
+    var svg = d3.select('body').append('svg').attr('height', height).attr('width', width)
+
+    svg.append('rect').attr('x',0).attr('y',0).attr('width','100%').attr('height','100%').attr('fill','orange').attr('id', 'back')
+
+
+    function reset(){
+        d3.select('#boxes').remove()
+        d3.select('#text').remove()
+        var randomBack = '#'+Math.floor(Math.random()*16777215).toString(16);
+        var randomBox = '#'+Math.floor(Math.random()*16777215).toString(16);
+        var randomStroke = '#'+Math.floor(Math.random()*16777215).toString(16);
+        var randWidth = 10*Math.random()
+        var randHeight = 10*Math.random()
+
+        var defs = svg.append('defs');
+        defs.append('filter').attr('id', 'motionFilter')
+                            .attr('width', '400%')
+                            .attr('x', '-200%')
+                            .append('feGaussianBlur')
+                            .attr('class', 'blurValues')
+                            .attr('in', 'SourceGraphic')
+                            .attr('stdDeviation', '0.1 0.1');
+
+        var boxes = new Array(300).fill(1);
+        var g_box = svg.append('g').attr('id', 'boxes')
+        g_box.selectAll('rect').data(boxes).enter().append('rect').style('filter', 'url(#motionFilter)')
+            .attr('fill', randomBox).attr('x', function(){return Math.random()*width})
+            .attr('y', function(){return Math.random()*height}).attr('stroke', randomStroke).attr('stroke-width', '2')
+            .attr('height', function(d,i){return `${Math.random()*randHeight}%`})
+            .attr('width',function(d,i){return `${Math.random()*randWidth}%`})
+
+        var g = svg.append('g').attr('transform', `translate(${width/2}, ${height/2})`).attr('id', 'text')
+        g.append('line').attr('x1', 0).attr('x2', 0).attr('y1', -10).attr('y2', 0)
+        g.append('text').text('Machine Art:').attr('fill', 'white').attr('stroke', 'black').attr('stroke-width', '4')
+                .attr('font-size', '70').attr('text-anchor', 'middle')
+                .style('font-family', '"Trebuchet MS", Helvetica, sans-serif')
+        g.append('line').attr('x1', 0).attr('x2', 0).attr('y1', 80).attr('y2', 90)
+        g.append('text').text('Generating Images from a Convolutional Neural Net').attr('fill', 'white')
+                .attr('stroke', 'black').attr('stroke-width', '3')
+                .attr('font-size', '45').attr('text-anchor', 'middle')
+                .style('font-family', '"Trebuchet MS", Helvetica, sans-serif').attr('y', 80)
+
+
+
+        d3.select('#back').transition().delay(1000)
+            .duration(2000).tween('attr.fill', function(){
+                var i = d3.interpolateRgb(this.getAttribute('fill'), randomBack);
+                return function(t) {
+                    this.setAttribute('fill', i(t));
+                }
+               })
+
+        d3.select('#motionFilter .blurValues')
+            .transition().delay(1000).duration(1900)
+            .attrTween('stdDeviation', function(d, i) {
+                    return d3.interpolateString('0.1 0.1', `4 4`);
+                    })
+             .transition().duration(100)
+            .attrTween('stdDeviation', function(d, i) {
+                    return d3.interpolateString('4 4', `0.1 0.1`);
+                    })
+       }
+    reset()
+    setInterval(reset, 3000)
+</script>
+</body>
+<form action="/encode">
+            <input type="submit" value=" " method="get" style="width:0%;border:0px;color:transparent" id="next_page">
+            <script>
+                var forward = document.body;
+                forward.addEventListener('keyup', function(event){
+                            if (event.keyCode==190) {
+                                event.preventDefault();
+                                document.getElementById('next_page').click();
+                            }
+                      });
+            </script>
+        </form>
+</html>

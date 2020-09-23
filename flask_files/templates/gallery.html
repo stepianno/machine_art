@@ -1,0 +1,58 @@
+<html>
+<script src="https://d3js.org/d3.v5.min.js"></script>
+<body>
+<script>
+    var height = 800
+    var width = 1450
+    var svg = d3.select('body').append('svg').attr('height', height).attr('width', width)
+    var back = svg.append('rect').attr('x',0).attr('y',0).attr('width','100%').attr('height','100%')
+                .attr('id', 'back').attr('fill', '#FFE5CC')
+    var boxes = new Array(500).fill(1);
+    svg.selectAll('rect').data(boxes).enter().append('rect').attr('x', function(){return Math.random()*1300})
+            .attr('y', function(){return Math.random()*700}).attr('fill', '#C0C0C0')
+            .attr('height', function(d,i){return Math.random()*50}).attr('width',function(d,i){return Math.random()*2})
+
+    var art = ['window.jpeg', 'drugs.jpeg', 'mirror.jpeg','sunset.jpeg', 'naked.jpeg','ghost.jpeg', 'divinity.jpeg',
+                'descent.jpeg', 'jail.jpeg', 'boxy.jpeg', 'heaven.jpeg', 'quilt.jpeg', 'cross.jpeg',
+                 'necklace.jpeg', 'pillar.jpeg', 'diamonds.jpeg', 'casette.jpeg',
+                 'solar.jpeg', 'sail.jpeg', 'blues.jpeg']
+
+    svg.selectAll('image').data(art).enter().append('image').attr('height', 100).attr('width', 100)
+            .attr('y', function(d,i){if(i<10){return 50} else {return 650}})
+            .attr('x', function(d,i){return i%10*140+30}).attr('id', function(d){return d})
+            .attr('xlink:href', function(d){return `/static/for_use/${d}`})
+
+    function zoom(){
+        d3.select('#zoom').remove()
+        var g = svg.append('g').attr('transform', 'translate(510,200)').attr('id','zoom')
+        g.append('image').attr('height', 400).attr('width', 400)
+                        .attr('xlink:href', d3.select(this).attr('xlink:href'))
+    }
+    d3.selectAll('image').on('mouseover', zoom);
+
+</script>
+</body>
+<form action="/recommend">
+            <input type="submit" value=" " method="get" style="width:0%;border:0px;color:transparent" id="next_page">
+            <script>
+                var forward = document.body;
+                forward.addEventListener('keyup', function(event){
+                            if (event.keyCode==190) {
+                                event.preventDefault();
+                                document.getElementById('next_page').click();
+                            }
+                      });
+            </script>
+        </form>
+<form action="/image">
+            <input type="submit" value=" " method="get" style="width:0%;border:0px;color:transparent" id="back_page">
+            <script>
+                forward.addEventListener('keyup', function(event){
+                            if (event.keyCode==188) {
+                                event.preventDefault();
+                                document.getElementById('back_page').click();
+                            }
+                      });
+            </script>
+        </form>
+</html>

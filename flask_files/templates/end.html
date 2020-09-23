@@ -1,0 +1,21 @@
+<html>
+<div style="background-image: url('/static/moma/Odilon-Redon_Fishing-Boat_c.-1875.jpeg');
+                background-repeat: no-repeat;
+                background-attachment: fixed;
+                background-size: cover;">
+    <h1 style="position:relative;left:550px;top:230px;font-size:60;font-family:'Trebuchet MS', Helvetica, sans-serif;">Thank You</h1>
+    <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+    <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+</div>
+<form action="/recommend">
+            <input type="submit" value=" " method="get" style="width:0%;border:0px;color:transparent" id="back_page">
+            <script>
+                document.body.addEventListener('keyup', function(event){
+                            if (event.keyCode==188) {
+                                event.preventDefault();
+                                document.getElementById('back_page').click();
+                            }
+                      });
+            </script>
+        </form>
+</html>

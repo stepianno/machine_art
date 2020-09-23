@@ -1,0 +1,355 @@
+<html>
+<script src="https://d3js.org/d3.v5.min.js"></script>
+<body>
+<script>
+    var height = 800
+    var width = 1450
+    var svg = d3.select('body').append('svg').attr('height', height).attr('width', width)
+    var back = svg.append('rect').attr('x',0).attr('y',0).attr('width','100%').attr('height','100%')
+                .attr('id', 'back').attr('fill', 'orange')
+
+    svg.append('text').attr('y', 70).attr('x', 20).attr('font-size', 70).attr('fill', 'white').attr('stroke', 'black')
+        .attr('stroke-width', 4)
+        .style('font-family', '"Trebuchet MS", Helvetica, sans-serif').text('The AutoEncoder')
+
+    var colors = ['#2B0549', '#7A5A92', '#D0B3E6']
+
+
+    var g = svg.append('g').attr('transform', `translate(${width/2}, ${height/2})`)
+    data = [3,2,1,-1,-2,-3]
+    g.append('circle').attr('r', 30).style('fill', 'black').attr('cx', 0).attr('cy', 0)
+    g.selectAll('rect').data(data).enter().append('rect').attr('x', function(d){return d*100-25})
+        .attr('fill', function(d){return colors[Math.abs(d)-1]})
+        .attr('y', function(d){return -Math.abs(150*d)/2})
+        .attr('width', function(d){return Math.abs(50/d)})
+        .attr('height', function(d){return Math.abs(150*d)})
+        .attr('rx', 20).attr('ry', 20)
+    var path111 = g.append('path').attr('d', 'M-315,210 L-215,130')
+                    .attr('fill', 'none').attr('stroke-width',0).attr('stroke','black')
+    var path112 = g.append('path').attr('d', 'M-315,210 L-215,-130')
+                    .attr('fill', 'none').attr('stroke-width',0).attr('stroke','black')
+    var path113 = g.append('path').attr('d', 'M-315,210 L-215,0')
+                    .attr('fill', 'none').attr('stroke-width',0).attr('stroke','black')
+
+    var path121 = g.append('path').attr('d', 'M-315,-210 L-215,130')
+                    .attr('fill', 'none').attr('stroke-width',0).attr('stroke','black')
+    var path122 = g.append('path').attr('d', 'M-315,-210 L-215,-130')
+                    .attr('fill', 'none').attr('stroke-width',0).attr('stroke','black')
+    var path123 = g.append('path').attr('d', 'M-315,-210 L-215,0')
+                    .attr('fill', 'none').attr('stroke-width',0).attr('stroke','black')
+
+    var path131 = g.append('path').attr('d', 'M-315,80 L-215,130')
+                    .attr('fill', 'none').attr('stroke-width',0).attr('stroke','black')
+    var path132 = g.append('path').attr('d', 'M-315,80 L-215,-130')
+                    .attr('fill', 'none').attr('stroke-width',0).attr('stroke','black')
+    var path133 = g.append('path').attr('d', 'M-315,80 L-215,0')
+                    .attr('fill', 'none').attr('stroke-width',0).attr('stroke','black')
+
+    var path141 = g.append('path').attr('d', 'M-315,-80 L-215,130')
+                    .attr('fill', 'none').attr('stroke-width',0).attr('stroke','black')
+    var path142 = g.append('path').attr('d', 'M-315,-80 L-215,-130')
+                    .attr('fill', 'none').attr('stroke-width',0).attr('stroke','black')
+    var path143 = g.append('path').attr('d', 'M-315,-80 L-215,0')
+                    .attr('fill', 'none').attr('stroke-width',0).attr('stroke','black')
+
+
+    var path211 = g.append('path').attr('d', 'M-215,130 L-100,40')
+                    .attr('fill', 'none').attr('stroke-width',0).attr('stroke','black')
+    var path212 = g.append('path').attr('d', 'M-215,130 L-100,-40')
+                    .attr('fill', 'none').attr('stroke-width',0).attr('stroke','black')
+
+    var path221 = g.append('path').attr('d', 'M-215,0 L-100,40')
+                    .attr('fill', 'none').attr('stroke-width',0).attr('stroke','black')
+    var path222 = g.append('path').attr('d', 'M-215,0 L-100,-40')
+                    .attr('fill', 'none').attr('stroke-width',0).attr('stroke','black')
+
+    var path231 = g.append('path').attr('d', 'M-215,-130 L-100,40')
+                    .attr('fill', 'none').attr('stroke-width',0).attr('stroke','black')
+    var path232 = g.append('path').attr('d', 'M-215,-130 L-100,-40')
+                    .attr('fill', 'none').attr('stroke-width',0).attr('stroke','black')
+
+
+    var path311 = g.append('path').attr('d', 'M-100,40 L0,0')
+                    .attr('fill', 'none').attr('stroke-width',0).attr('stroke','black')
+    var path321 = g.append('path').attr('d', 'M-100,-40 L0,0')
+                    .attr('fill', 'none').attr('stroke-width',0).attr('stroke','black')
+
+    var path411 = g.append('path').attr('d', 'M0,0 L100,40')
+                    .attr('fill', 'none').attr('stroke-width',0).attr('stroke','black')
+    var path421 = g.append('path').attr('d', 'M0,0 L100,-40')
+                    .attr('fill', 'none').attr('stroke-width',0).attr('stroke','black')
+
+
+    var path511 = g.append('path').attr('d', 'M100,40 L190,130')
+                    .attr('fill', 'none').attr('stroke-width',0).attr('stroke','black')
+    var path512 = g.append('path').attr('d', 'M100,-40 L190,130')
+                    .attr('fill', 'none').attr('stroke-width',0).attr('stroke','black')
+
+    var path521 = g.append('path').attr('d', 'M100,40 L190,0')
+                    .attr('fill', 'none').attr('stroke-width',0).attr('stroke','black')
+    var path522 = g.append('path').attr('d', 'M100,-40 L190,0')
+                    .attr('fill', 'none').attr('stroke-width',0).attr('stroke','black')
+
+    var path531 = g.append('path').attr('d', 'M100,40 L190,-130')
+                    .attr('fill', 'none').attr('stroke-width',0).attr('stroke','black')
+    var path532 = g.append('path').attr('d', 'M100,-40 L190,-130')
+                    .attr('fill', 'none').attr('stroke-width',0).attr('stroke','black')
+
+
+    var path611 = g.append('path').attr('d', 'M190,130 L285,210')
+                    .attr('fill', 'none').attr('stroke-width',0).attr('stroke','black')
+    var path612 = g.append('path').attr('d', 'M190,-130 L285,210')
+                    .attr('fill', 'none').attr('stroke-width',0).attr('stroke','black')
+    var path613 = g.append('path').attr('d', 'M190,0 L285,210')
+                    .attr('fill', 'none').attr('stroke-width',0).attr('stroke','black')
+
+    var path621 = g.append('path').attr('d', 'M190,130 L285,-210')
+                    .attr('fill', 'none').attr('stroke-width',0).attr('stroke','black')
+    var path622 = g.append('path').attr('d', 'M190,-130 L285,-210')
+                    .attr('fill', 'none').attr('stroke-width',0).attr('stroke','black')
+    var path623 = g.append('path').attr('d', 'M190,0 L285,-210')
+                    .attr('fill', 'none').attr('stroke-width',0).attr('stroke','black')
+
+    var path631 = g.append('path').attr('d', 'M190,130 L285,80')
+                    .attr('fill', 'none').attr('stroke-width',0).attr('stroke','black')
+    var path632 = g.append('path').attr('d', 'M190,-130 L285,80')
+                    .attr('fill', 'none').attr('stroke-width',0).attr('stroke','black')
+    var path633 = g.append('path').attr('d', 'M190,0 L285,80')
+                    .attr('fill', 'none').attr('stroke-width',0).attr('stroke','black')
+
+    var path641 = g.append('path').attr('d', 'M190,130 L285,-80')
+                    .attr('fill', 'none').attr('stroke-width',0).attr('stroke','black')
+    var path642 = g.append('path').attr('d', 'M190,-130 L285,-80')
+                    .attr('fill', 'none').attr('stroke-width',0).attr('stroke','black')
+    var path643 = g.append('path').attr('d', 'M190,0 L285,-80')
+                    .attr('fill', 'none').attr('stroke-width',0).attr('stroke','black')
+
+    function pathTween(path){
+                var length = path.node().getTotalLength();
+                var r = d3.interpolate(0, length);
+                return function(t){
+                    var point = path.node().getPointAtLength(r(t));
+                    d3.select(this).attr('cx', point.x).attr('cy', point.y)
+                    }
+                }
+
+    function con1(){
+        g.append('circle').attr('r', 10).attr('fill', '#88D0E2').attr('stroke', 'white').attr('stroke-width', 3)
+            .style('filter', 'url(#motionFilter)')
+            .transition().duration(700).tween('pathTween', function(){return pathTween(path111)}).remove();
+        g.append('circle').attr('r', 10).attr('fill', '#88D0E2').attr('stroke', 'white').attr('stroke-width', 3)
+            .style('filter', 'url(#motionFilter)')
+            .transition().duration(700).tween('pathTween', function(){return pathTween(path112)}).remove();
+        g.append('circle').attr('r', 10).attr('fill', '#88D0E2').attr('stroke', 'white').attr('stroke-width', 3)
+            .style('filter', 'url(#motionFilter)')
+            .transition().duration(700).tween('pathTween', function(){return pathTween(path113)}).remove();
+
+        g.append('circle').attr('r', 10).attr('fill', '#88D0E2').attr('stroke', 'white').attr('stroke-width', 3)
+            .style('filter', 'url(#motionFilter)')
+            .transition().duration(700).tween('pathTween', function(){return pathTween(path121)}).remove();
+        g.append('circle').attr('r', 10).attr('fill', '#88D0E2').attr('stroke', 'white').attr('stroke-width', 3)
+            .style('filter', 'url(#motionFilter)')
+            .transition().duration(700).tween('pathTween', function(){return pathTween(path122)}).remove();
+        g.append('circle').attr('r', 10).attr('fill', '#88D0E2').attr('stroke', 'white').attr('stroke-width', 3)
+            .style('filter', 'url(#motionFilter)')
+            .transition().duration(700).tween('pathTween', function(){return pathTween(path123)}).remove();
+
+        g.append('circle').attr('r', 10).attr('fill', '#88D0E2').attr('stroke', 'white').attr('stroke-width', 3)
+            .style('filter', 'url(#motionFilter)')
+            .transition().duration(700).tween('pathTween', function(){return pathTween(path131)}).remove();
+        g.append('circle').attr('r', 10).attr('fill', '#88D0E2').attr('stroke', 'white').attr('stroke-width', 3)
+            .style('filter', 'url(#motionFilter)')
+            .transition().duration(700).tween('pathTween', function(){return pathTween(path132)}).remove();
+        g.append('circle').attr('r', 10).attr('fill', '#88D0E2').attr('stroke', 'white').attr('stroke-width', 3)
+            .style('filter', 'url(#motionFilter)')
+            .transition().duration(700).tween('pathTween', function(){return pathTween(path133)}).remove();
+
+        g.append('circle').attr('r', 10).attr('fill', '#88D0E2').attr('stroke', 'white').attr('stroke-width', 3)
+            .style('filter', 'url(#motionFilter)')
+            .transition().duration(700).tween('pathTween', function(){return pathTween(path141)}).remove();
+        g.append('circle').attr('r', 10).attr('fill', '#88D0E2').attr('stroke', 'white').attr('stroke-width', 3)
+            .style('filter', 'url(#motionFilter)')
+            .transition().duration(700).tween('pathTween', function(){return pathTween(path142)}).remove();
+        g.append('circle').attr('r', 10).attr('fill', '#88D0E2').attr('stroke', 'white').attr('stroke-width', 3)
+            .style('filter', 'url(#motionFilter)')
+            .transition().duration(700).tween('pathTween', function(){return pathTween(path143)}).remove();
+    }
+
+    function con2(){
+        g.append('circle').attr('r', 10).attr('fill', '#88D0E2').attr('stroke', 'white').attr('stroke-width', 3)
+            .style('filter', 'url(#motionFilter)')
+            .transition().duration(500).tween('pathTween', function(){return pathTween(path211)}).remove();
+        g.append('circle').attr('r', 10).attr('fill', '#88D0E2').attr('stroke', 'white').attr('stroke-width', 3)
+            .style('filter', 'url(#motionFilter)')
+            .transition().duration(500).tween('pathTween', function(){return pathTween(path212)}).remove();
+
+        g.append('circle').attr('r', 10).attr('fill', '#88D0E2').attr('stroke', 'white').attr('stroke-width', 3)
+            .style('filter', 'url(#motionFilter)')
+            .transition().duration(500).tween('pathTween', function(){return pathTween(path221)}).remove();
+        g.append('circle').attr('r', 10).attr('fill', '#88D0E2').attr('stroke', 'white').attr('stroke-width', 3)
+            .style('filter', 'url(#motionFilter)')
+            .transition().duration(500).tween('pathTween', function(){return pathTween(path222)}).remove();
+
+        g.append('circle').attr('r', 10).attr('fill', '#88D0E2').attr('stroke', 'white').attr('stroke-width', 3)
+            .style('filter', 'url(#motionFilter)')
+            .transition().duration(500).tween('pathTween', function(){return pathTween(path231)}).remove();
+        g.append('circle').attr('r', 10).attr('fill', '#88D0E2').attr('stroke', 'white').attr('stroke-width', 3)
+            .style('filter', 'url(#motionFilter)')
+            .transition().duration(500).tween('pathTween', function(){return pathTween(path232)}).remove();
+    }
+
+    function con3(){
+        g.append('circle').attr('r', 10).attr('fill', '#88D0E2').attr('stroke', 'white').attr('stroke-width', 3)
+            .style('filter', 'url(#motionFilter)')
+            .transition().duration(400).tween('pathTween', function(){return pathTween(path311)}).remove();
+        g.append('circle').attr('r', 10).attr('fill', '#88D0E2').attr('stroke', 'white').attr('stroke-width', 3)
+            .style('filter', 'url(#motionFilter)')
+            .transition().duration(400).tween('pathTween', function(){return pathTween(path321)}).remove();
+    }
+
+    function con4(){
+        g.append('circle').attr('r', 10).attr('fill', '#88D0E2').attr('stroke', 'white').attr('stroke-width', 3)
+            .style('filter', 'url(#motionFilter)')
+            .transition().duration(400).tween('pathTween', function(){return pathTween(path411)}).remove();
+        g.append('circle').attr('r', 10).attr('fill', '#88D0E2').attr('stroke', 'white').attr('stroke-width', 3)
+            .style('filter', 'url(#motionFilter)')
+            .transition().duration(400).tween('pathTween', function(){return pathTween(path421)}).remove();
+    }
+
+    function con5(){
+        g.append('circle').attr('r', 10).attr('fill', '#88D0E2').attr('stroke', 'white').attr('stroke-width', 3)
+            .style('filter', 'url(#motionFilter)')
+            .transition().duration(500).tween('pathTween', function(){return pathTween(path511)}).remove();
+        g.append('circle').attr('r', 10).attr('fill', '#88D0E2').attr('stroke', 'white').attr('stroke-width', 3)
+            .style('filter', 'url(#motionFilter)')
+            .transition().duration(500).tween('pathTween', function(){return pathTween(path512)}).remove();
+
+        g.append('circle').attr('r', 10).attr('fill', '#88D0E2').attr('stroke', 'white').attr('stroke-width', 3)
+            .style('filter', 'url(#motionFilter)')
+            .transition().duration(500).tween('pathTween', function(){return pathTween(path521)}).remove();
+        g.append('circle').attr('r', 10).attr('fill', '#88D0E2').attr('stroke', 'white').attr('stroke-width', 3)
+            .style('filter', 'url(#motionFilter)')
+            .transition().duration(500).tween('pathTween', function(){return pathTween(path522)}).remove();
+
+        g.append('circle').attr('r', 10).attr('fill', '#88D0E2').attr('stroke', 'white').attr('stroke-width', 3)
+            .style('filter', 'url(#motionFilter)')
+            .transition().duration(500).tween('pathTween', function(){return pathTween(path531)}).remove();
+        g.append('circle').attr('r', 10).attr('fill', '#88D0E2').attr('stroke', 'white').attr('stroke-width', 3)
+            .style('filter', 'url(#motionFilter)')
+            .transition().duration(500).tween('pathTween', function(){return pathTween(path532)}).remove();
+    }
+
+    function con6(){
+        g.append('circle').attr('r', 10).attr('fill', '#88D0E2').attr('stroke', 'white').attr('stroke-width', 3)
+            .style('filter', 'url(#motionFilter)')
+            .transition().duration(700).tween('pathTween', function(){return pathTween(path611)}).remove();
+        g.append('circle').attr('r', 10).attr('fill', '#88D0E2').attr('stroke', 'white').attr('stroke-width', 3)
+            .style('filter', 'url(#motionFilter)')
+            .transition().duration(700).tween('pathTween', function(){return pathTween(path612)}).remove();
+        g.append('circle').attr('r', 10).attr('fill', '#88D0E2').attr('stroke', 'white').attr('stroke-width', 3)
+            .style('filter', 'url(#motionFilter)')
+            .transition().duration(700).tween('pathTween', function(){return pathTween(path613)}).remove();
+
+        g.append('circle').attr('r', 10).attr('fill', '#88D0E2').attr('stroke', 'white').attr('stroke-width', 3)
+            .style('filter', 'url(#motionFilter)')
+            .transition().duration(700).tween('pathTween', function(){return pathTween(path621)}).remove();
+        g.append('circle').attr('r', 10).attr('fill', '#88D0E2').attr('stroke', 'white').attr('stroke-width', 3)
+            .style('filter', 'url(#motionFilter)')
+            .transition().duration(700).tween('pathTween', function(){return pathTween(path622)}).remove();
+        g.append('circle').attr('r', 10).attr('fill', '#88D0E2').attr('stroke', 'white').attr('stroke-width', 3)
+            .style('filter', 'url(#motionFilter)')
+            .transition().duration(700).tween('pathTween', function(){return pathTween(path623)}).remove();
+
+        g.append('circle').attr('r', 10).attr('fill', '#88D0E2').attr('stroke', 'white').attr('stroke-width', 3)
+            .style('filter', 'url(#motionFilter)')
+            .transition().duration(700).tween('pathTween', function(){return pathTween(path631)}).remove();
+        g.append('circle').attr('r', 10).attr('fill', '#88D0E2').attr('stroke', 'white').attr('stroke-width', 3)
+            .style('filter', 'url(#motionFilter)')
+            .transition().duration(700).tween('pathTween', function(){return pathTween(path632)}).remove();
+        g.append('circle').attr('r', 10).attr('fill', '#88D0E2').attr('stroke', 'white').attr('stroke-width', 3)
+            .style('filter', 'url(#motionFilter)')
+            .transition().duration(700).tween('pathTween', function(){return pathTween(path633)}).remove();
+
+        g.append('circle').attr('r', 10).attr('fill', '#88D0E2').attr('stroke', 'white').attr('stroke-width', 3)
+            .style('filter', 'url(#motionFilter)')
+            .transition().duration(700).tween('pathTween', function(){return pathTween(path641)}).remove();
+        g.append('circle').attr('r', 10).attr('fill', '#88D0E2').attr('stroke', 'white').attr('stroke-width', 3)
+            .style('filter', 'url(#motionFilter)')
+            .transition().duration(700).tween('pathTween', function(){return pathTween(path642)}).remove();
+        g.append('circle').attr('r', 10).attr('fill', '#88D0E2').attr('stroke', 'white').attr('stroke-width', 3)
+            .style('filter', 'url(#motionFilter)')
+            .transition().duration(700).tween('pathTween', function(){return pathTween(path643)}).remove();
+    }
+
+    var defs = svg.append('defs');
+        defs.append('filter').attr('id', 'motionFilter')
+                            .attr('width', '400%')
+                            .attr('x', '-200%')
+                            .append('feGaussianBlur')
+                            .attr('class', 'blurValues')
+                            .attr('in', 'SourceGraphic')
+                            .attr('stdDeviation', '2 2');
+
+function coder(){
+con1()
+setTimeout(con2, 500)
+setTimeout(con3, 900)
+setTimeout(con4, 1200)
+setTimeout(con5, 1500)
+setTimeout(con6, 1900)
+}
+coder()
+setInterval(coder, 3500)
+    document.body.addEventListener('mouseup', function(){dash();
+
+    document.body.addEventListener('mouseup', function(){
+    g.append('image').attr('x', -600).attr('y',-100).attr('height', 200).attr('width', 200)
+        .attr('xlink:href', '/static/for_use/vvg_portrait.png')
+
+        document.body.addEventListener('mouseup', function(){
+            g.append('image').attr('x', 400).attr('y',-100).attr('height', 200).attr('width', 200)
+             .attr('xlink:href', '/static/for_use/vvg_decoded.jpeg')
+
+
+        })
+    })
+})
+
+    function dash(){
+
+        g.selectAll('image').remove()
+        g.append('line').attr('x1',0).attr('x2',0).attr('y1',-300).attr('y2',300).attr('stroke','black')
+            .attr('stroke-dasharray', ('15,3')).attr('stroke-width', 3)
+        var names = [{title:'Encoder', pos:-1}, {title:'Decoder', pos:1}]
+        g.selectAll('text').data(names).enter().append('text').attr('y', 300).attr('x', function(d){return d.pos*250-90})
+            .text(function(d){return d.title}).attr('font-size', 40).attr('fill','black')
+            .attr('font-family', "'Trebuchet MS', Helvetica, sans-serif")
+
+    }
+
+</script>
+</body>
+<form action="/image">
+            <input type="submit" value=" " method="get" style="width:0%;border:0px;color:transparent" id="next_page">
+            <script>
+                var forward = document.body;
+                forward.addEventListener('keyup', function(event){
+                            if (event.keyCode==190) {
+                                event.preventDefault();
+                                document.getElementById('next_page').click();
+                            }
+                      });
+            </script>
+        </form>
+<form action="/">
+            <input type="submit" value=" " method="get" style="width:0%;border:0px;color:transparent" id="back_page">
+            <script>
+                forward.addEventListener('keyup', function(event){
+                            if (event.keyCode==188) {
+                                event.preventDefault();
+                                document.getElementById('back_page').click();
+                            }
+                      });
+            </script>
+        </form>
+</html>

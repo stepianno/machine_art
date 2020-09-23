@@ -1,0 +1,84 @@
+<html>
+<script src="https://d3js.org/d3.v5.min.js"></script>
+<div style="background-image: url('https://image.freepik.com/free-photo/concrete-wall-scratched-material-background-texture-concept_53876-31751.jpg');
+                background-repeat: no-repeat;
+                background-attachment: fixed;
+                background-size: cover;">
+<body>
+<h1 style="font-size:50;font-family:'Trebuchet MS', Helvetica, sans-serif;text-align:center">Artwork Recommender</h1>
+<table width="100%">
+    <tr>
+        <td style="position:relative;left:200px;">
+            <form id="image-link" action="#" method="post" style="font-family:'Trebuchet MS', Helvetica, sans-serif;">
+                Enter Image Address Here:<br><br><input type="text" name="link" size="30">
+            </form>
+        </td>
+        <td style="left:50px;">
+            <div style="position:relative;left:200px">
+                <img src="{{image}}" width="350" height="250">
+            </div>
+        </td>
+    </tr>
+</table>
+<script>
+    var height = 500
+    var width = 1450
+    var works = {{works|tojson}}
+
+    var svg = d3.select('body').append('svg').attr('height', height).attr('width', width).selectAll().data(works).enter()
+    var back = svg.append('rect').attr('x',0).attr('y',0).attr('width','100%').attr('height','100%')
+                .attr('id', 'back').attr('fill', 'black')
+    svg.append('image').attr('y',20).attr('x', 1450)
+                            .attr('width', 300).attr('height', 300)
+                            .attr('xlink:href', function(d){return `/static/moma/${d}`})
+                            .transition().delay(function(d,i){return i*500}).duration(1000)
+                            .attr('x', function(d,i){return i*425+125})
+    svg.append('line').attr('x1', function(d,i){return i*400+250}).attr('x2', function(d,i){return i*425+275})
+                        .attr('y1', 350).attr('y2', 420)
+    svg.append('text').attr('font-size', 15).attr('y',345)
+                            .attr('x', function(d,i){return i*425+275})
+                            .text(function(d){return d.split('_')[0].replaceAll('-', ' ')})
+                            .attr('fill', 'black').attr('text-anchor', 'middle')
+                            .attr('font-family', "'Trebuchet MS', Helvetica, sans-serif")
+    svg.append('text').attr('font-size', 15).attr('y',365)
+                            .attr('x', function(d,i){return i*425+275})
+                            .text(function(d){let text = d.split('_')[1].replaceAll('-', ' ');
+                                                if (text.length>30){return text.slice(0,30)+'...'}else {return text}})
+                            .attr('fill', 'black').attr('text-anchor', 'middle')
+                            .attr('font-family', "'Trebuchet MS', Helvetica, sans-serif")
+    svg.append('text').attr('font-size', 15).attr('y',385)
+                            .attr('x', function(d,i){return i*425+275})
+                            .text(function(d){return d.split('_')[2].match('[0-9]{4}')[0]
+                                               })
+                            .attr('fill', 'black').attr('text-anchor', 'middle')
+                            .attr('font-family', "'Trebuchet MS', Helvetica, sans-serif")
+
+    d3.selectAll('text').transition().delay(2000).duration(500).attr('fill', 'white')
+
+</script>
+</body>
+</div>
+<form action="/fin">
+            <input type="submit" value=" " method="get" style="width:0%;border:0px;color:transparent" id="next_page">
+            <script>
+                var forward = document.body;
+                forward.addEventListener('keyup', function(event){
+                            if (event.keyCode===190) {
+                                event.preventDefault();
+                                document.getElementById('next_page').click();
+                            }
+                      });
+            </script>
+        </form>
+<form action="/gallery">
+            <input type="submit" value=" " method="get" style="width:0%;border:0px;color:transparent" id="back_page">
+            <script>
+                forward.addEventListener('keyup', function(event){
+                            if (event.keyCode===188) {
+                                event.preventDefault();
+                                document.getElementById('back_page').click();
+                            }
+                      });
+            </script>
+        </form>
+</html>
