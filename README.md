@@ -1,6 +1,8 @@
 # machine_art
 Generating Images through a CNN  
 
+You can view the [video presentation here](https://www.youtube.com/watch?v=Drs3az54dZc)
+
 In this project I create and train an image Autoencoder - using over 10,000 images scraped from Pinterest - in order to compress an image into an encoded file 
 a tenth the size of the original before then decoding it to recreate the original image. Once trained, I use the Autoencoder for two separate purposes:  
 
